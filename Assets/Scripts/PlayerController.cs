@@ -7,14 +7,17 @@ public class PlayerController : MonoBehaviour
     private float xMove, zMove;
     private Vector3 playerInput;
 
+    private float rotation;
+    [SerializeField] private float rotationSpeed;
+
     private CharacterController characterController;
     
 
-    [SerializeField] private float speed;
-    public float Speed
+    [SerializeField] private float movementSpeed;
+    public float MovementSpeed
     {
-        get { return speed; }
-        set { speed = value; }
+        get { return movementSpeed; }
+        set { movementSpeed = value; }
     }
     
     
@@ -31,10 +34,32 @@ public class PlayerController : MonoBehaviour
         zMove = Input.GetAxis("Vertical");
         playerInput = new Vector3(xMove, 0, zMove);
         playerInput = Vector3.ClampMagnitude(playerInput, 1);
+
+        Debug.Log("Z: " + zMove);
+        Debug.Log("X: " + xMove);
     }
 
     void FixedUpdate()
     {
-        characterController.Move(playerInput * speed * Time.deltaTime);
+        characterController.Move(playerInput * movementSpeed * Time.deltaTime);
+        Rotate();
+    }
+
+    void Rotate()
+    {
+        if(xMove != 0)
+        {
+            if (xMove > 0)
+                transform.rotation = Quaternion.Euler(new Vector3()); // right
+            else
+                transform.rotation = Quaternion.Euler(new Vector3(0,180,0)); // left
+        }
+        if(zMove != 0)
+        {
+            if (zMove > 0)
+                transform.rotation = Quaternion.Euler(new Vector3(0,270,0)); // up
+            else
+                transform.rotation = Quaternion.Euler(new Vector3(0,90,0)); // down
+        }
     }
 }
