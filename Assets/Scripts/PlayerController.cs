@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Joystick joystick;
     private float xMove, zMove;
     private Vector3 playerInput;
     
@@ -13,16 +14,24 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed;
 
     private CharacterController characterController;
+
+    private bool mobile;
       
     void Start()
     {
+        mobile = SystemInfo.deviceType == DeviceType.Handheld;
         characterController = GetComponent<CharacterController>();    
     }
 
     void Update()
     {
-        xMove = Input.GetAxis("Horizontal");
-        zMove = Input.GetAxis("Vertical");
+        #if UNITY_ANDROID 
+            xMove = joystick.Horizontal * 10;
+            zMove = joystick.Vertical * 10;
+        #else
+            xMove = Input.GetAxis("Horizontal");
+            zMove = Input.GetAxis("Vertical");
+        #endif
         playerInput = new Vector3(xMove, 0, zMove);
         playerInput = Vector3.ClampMagnitude(playerInput, 1);
         Rotate();
@@ -30,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        Debug.Log(playerInput);
         characterController.Move(playerInput * movementSpeed * Time.deltaTime);
     }
 
