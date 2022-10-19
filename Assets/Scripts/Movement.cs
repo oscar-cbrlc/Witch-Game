@@ -15,36 +15,28 @@ public class Movement : MonoBehaviour
 
     private CharacterController characterController;
 
-    private bool mobile = false;
+    //private bool mobile = false;
       
     void Start()
     {
-        # if UNITY_ANDROID
-            mobile = true;
-        # endif
         characterController = GetComponent<CharacterController>();
     }
 
     void Update()
     {
-        if(mobile)
-        {
-            xMove = joystick.Horizontal * 10;
-            zMove = joystick.Vertical * 10;
-        }
-        else
-        {
-            xMove = Input.GetAxis("Horizontal");
-            zMove = Input.GetAxis("Vertical");
-        }
         playerInput = new Vector3(xMove, 0, zMove);
         playerInput = Vector3.ClampMagnitude(playerInput, 1);
         Rotate();
     }
 
+    public void Move(Vector2 direction)
+    {
+        xMove = direction.x;
+        zMove = direction.y;
+    }
+
     void FixedUpdate()
     {
-        Debug.Log(playerInput);
         characterController.Move(playerInput * movementSpeed * Time.deltaTime);
     }
 
