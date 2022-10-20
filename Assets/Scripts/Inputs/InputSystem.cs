@@ -37,6 +37,15 @@ namespace Inputs
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Put/Get"",
+                    ""type"": ""Button"",
+                    ""id"": ""90c1a76b-4200-438b-a791-5dc89d7094d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -105,6 +114,28 @@ namespace Inputs
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a35510cb-35c1-4e6c-b763-2a397456f539"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Put/Get"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7983cf28-e39c-49c5-ad1a-6e8b290fe83a"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Put/Get"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -131,6 +162,7 @@ namespace Inputs
             // Cooking
             m_Cooking = asset.FindActionMap("Cooking", throwIfNotFound: true);
             m_Cooking_Movement = m_Cooking.FindAction("Movement", throwIfNotFound: true);
+            m_Cooking_PutGet = m_Cooking.FindAction("Put/Get", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -191,11 +223,13 @@ namespace Inputs
         private readonly InputActionMap m_Cooking;
         private ICookingActions m_CookingActionsCallbackInterface;
         private readonly InputAction m_Cooking_Movement;
+        private readonly InputAction m_Cooking_PutGet;
         public struct CookingActions
         {
             private @InputSystem m_Wrapper;
             public CookingActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_Cooking_Movement;
+            public InputAction @PutGet => m_Wrapper.m_Cooking_PutGet;
             public InputActionMap Get() { return m_Wrapper.m_Cooking; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -208,6 +242,9 @@ namespace Inputs
                     @Movement.started -= m_Wrapper.m_CookingActionsCallbackInterface.OnMovement;
                     @Movement.performed -= m_Wrapper.m_CookingActionsCallbackInterface.OnMovement;
                     @Movement.canceled -= m_Wrapper.m_CookingActionsCallbackInterface.OnMovement;
+                    @PutGet.started -= m_Wrapper.m_CookingActionsCallbackInterface.OnPutGet;
+                    @PutGet.performed -= m_Wrapper.m_CookingActionsCallbackInterface.OnPutGet;
+                    @PutGet.canceled -= m_Wrapper.m_CookingActionsCallbackInterface.OnPutGet;
                 }
                 m_Wrapper.m_CookingActionsCallbackInterface = instance;
                 if (instance != null)
@@ -215,6 +252,9 @@ namespace Inputs
                     @Movement.started += instance.OnMovement;
                     @Movement.performed += instance.OnMovement;
                     @Movement.canceled += instance.OnMovement;
+                    @PutGet.started += instance.OnPutGet;
+                    @PutGet.performed += instance.OnPutGet;
+                    @PutGet.canceled += instance.OnPutGet;
                 }
             }
         }
@@ -240,6 +280,7 @@ namespace Inputs
         public interface ICookingActions
         {
             void OnMovement(InputAction.CallbackContext context);
+            void OnPutGet(InputAction.CallbackContext context);
         }
     }
 }
