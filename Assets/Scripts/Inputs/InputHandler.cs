@@ -32,7 +32,7 @@ namespace Inputs
 
         void PutGet_performed(InputAction.CallbackContext context)
         {
-            if (interaction.Available) interaction.PutGet();
+            if (interaction.Available) interaction.Perform();
         }
     }
 }

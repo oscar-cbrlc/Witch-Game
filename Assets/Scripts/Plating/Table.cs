@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 using Interactions;
 
 namespace Plating
 {
-    public class Table : MonoBehaviour, I_Interactuable
+    public class Table : MonoBehaviour, I_Interactable
     {
         [SerializeField]
         private GameObject item;
@@ -46,9 +47,10 @@ namespace Plating
             return pItem;
         }
 
-        public void PerformInteraction()
+        public void PerformInteraction(Player player)
         {
-            // something
+            if (!occupied) Put(player.DropItem());
+            else player.HoldItem(Get());
         }
     }
 }

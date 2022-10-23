@@ -8,7 +8,7 @@ namespace Interactions
     {
         private Player player;
         public BoxCollider interactionZone;
-        [SerializeField]private I_Interactuable interactuable;
+        [SerializeField]private I_Interactable interactable;
         
         [SerializeField]
         private bool available;
@@ -23,29 +23,26 @@ namespace Interactions
             player = GetComponent<Player>();
         }
         
-        public void PutGet()
+
+        public void Perform()
         {
-            Table table = interactuable as Table;
-            if (!table.occupied)
-                table.Put(player.DropItem());
-            else
-                player.HoldItem(table.Get());
+            interactable.PerformInteraction(player);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Interactuable")
+            if (other.tag == "Interactable")
             {
                 available = true;
-                interactuable = other.GetComponentInChildren<I_Interactuable>();
+                interactable = other.GetComponentInChildren<I_Interactable>();
             }
         }
         private void OnTriggerExit(Collider other)
         {
-            if (other.tag == "Interactuable")
+            if (other.tag == "Interactable")
             {
                 available = false;
-                interactuable = null;
+                interactable = null;
             }
         }
     }

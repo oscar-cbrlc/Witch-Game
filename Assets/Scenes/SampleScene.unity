@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 39188707}
   m_Layer: 0
   m_Name: table-2
-  m_TagString: Interactuable
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1539,7 +1539,7 @@ GameObject:
   - component: {fileID: 1577555105}
   m_Layer: 0
   m_Name: table-1
-  m_TagString: Interactuable
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2101,7 +2101,7 @@ GameObject:
   - component: {fileID: 1718254150}
   m_Layer: 0
   m_Name: table-3
-  m_TagString: Interactuable
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
